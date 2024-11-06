@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="device">
+        <h1>Kitchen Companion</h1>
+        <img id="myImage" src="images/keyboard.jpg" alt="keyboard">
+
+        <div class="content active" id="list-content">
+            <h2>Shopping List</h2>
+            <div class="shopping-list-container">
+                <input type="text" id="new-item" placeholder="Enter item..." onclick="showImage()" class="textBox">
+                <button id="shopping-add-btn" onclick="addShoppingItem()">Add Item</button>
+                <ul id="shopping-list"></ul>
+                <button id="addtoinvbutton" onclick="addStrikethroughItemsToInventory()">Add to Inventory</button>
+            </div>
+        </div>
+
+        <div class="content" id="preferences-content">
+            <h2>User Preferences</h2>
+            <div class="preferences-container">
+                <img src="screenshot-2022-05-24-at-15-22-28.png" alt="Profile Picture" class="profile-picture">
+                <h3>John Doe</h3>
+
+                <div class="preference">
+                    <span class="preference-title">Diet Type:</span>
+                    <span class="preference-value" id="dietType-display">Vegetarian</span>
+                    <input type="text" class="preference-input" id="dietType-input" value="Vegetarian" style="display: none;">
+                </div>
+
+                <div class="preference">
+                    <span class="preference-title">Allergies:</span>
+                    <span class="preference-value" id="allergies-display">Peanuts, Dairy</span>
+                    <input type="text" class="preference-input" id="allergies-input" value="Peanuts, Dairy" style="display: none;">
+                </div>
+
+                <div class="preference">
+                    <span class="preference-title">Favorite Cuisine:</span>
+                    <span class="preference-value" id="cuisine-display">Italian</span>
+                    <input type="text" class="preference-input" id="cuisine-input" value="Italian" style="display: none;">
+                </div>
+
+
+                <div class="preference">
+                    <span class="preference-title">Spicy Food Tolerance:</span>
+                    <span class="preference-value" id="spiceTolerance-display">Medium</span>
+                    <input type="text" class="preference-input" id="spiceTolerance-input" value="Medium" style="display: none;">
+                </div>
+
+                <button id="edit-button" onclick="toggleEditMode()">Edit Preferences</button>
+                <button id="save-button" onclick="savePreferences()" style="display: none;">Save</button>
+            </div>
+        </div>
+
+        <div class="content" id="home-content">
+            <h2>Welcome Back, John!</h2>
+            <h4>I Can Make:</h4>
+            <img src="images/tomsalad.jpg" alt="Tomato Salad" class="home-page-image">
+            <div class="bottom-left">Tomato Salad: Est. Duration: 10 Minutes</div>
+            <ul>
+                <li>2 Tomatoes (Inventory: 5)</li>
+                <li>Mozzarella (Inventory: 1)</li>
+                <li>Basil (Inventory: 1) - Optional</li>
+                <li>Salt (Inventory: 1) - Optional</li>
+            </ul>
+        </div>
+
+        <div class="content" id="recipes-content">
+            <h2>Recipes</h2>
+            <button id="create-recipe-button">Create Recipe</button>
+            <div class="filter-container">
+                <label for="filter-diet">Diet Type:</label>
+                <select id="filter-diet">
+                    <option value="">All</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Non-Vegetarian">Non-Vegetarian</option>
+                </select>
+                
+                <label for="filter-cuisine">Cuisine:</label>
+                <select id="filter-cuisine">
+                    <option value="">All</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Chinese">Chinese</option>
+                </select> 
+
+                <label for="filter-spiciness">Spiciness:</label>
+                <select id="filter-spiciness">
+                    <option value="">All</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+            </div>
+            <div class="recipe-grid" id="recipe-grid"></div>
+        </div>
+
+        <div class="content" id="recipe-detail-content"></div>
+
+        <div class="content" id="inventory-content">
+            <h2>Inventory</h2>
+            <div class="inventory-container">
+                <input type="text" id="stock-input" placeholder="New Stock Item...">
+                <select id="category-select">
+                    <option value="">Select Category</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="meat">Meat</option>
+                    <option value="dairy">Dairy</option>
+                </select>
+                <button id="add-item-btn" onclick="addInventoryItem()">Add to Inventory</button>
+                <br>
+                <button class="invfiltersfruit" onclick="filterByCategory('fruits')">Fruits</button>
+                <button class="invfilters" onclick="filterByCategory('vegetables')">Vegetables</button>
+                <button class="invfilters" onclick="filterByCategory('meat')">Meat</button>
+                <button class="invfilters" onclick="filterByCategory('dairy')">Dairy</button>
+                <button class="invfilters" onclick="showAll()">Show All</button>
+                <ul id="inventory-list"></ul>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="showContent('list-content')">
+                <i class="fas fa-shopping-cart"></i>
+                <span> List</span>
+            </div>
+            <div class="tab" onclick="showContent('preferences-content')">
+                <i class="fas fa-user"></i>
+                <span>Preferences</span>
+            </div>
+            <div class="tab" onclick="showContent('home-content')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="tab" onclick="showContent('recipes-content')">
+                <i class="fas fa-utensils"></i>
+                <span>Recipes</span>
+            </div>
+            <div class="tab" onclick="showContent('inventory-content')">
+                <i class="fas fa-boxes"></i>
+                <span>Inventory</span>
+            </div>
+        </div>
+        
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
